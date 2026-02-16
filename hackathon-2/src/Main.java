@@ -1,4 +1,9 @@
+import java.util.HashMap;
+import java.util.Scanner;
+
 public class Main {
+    private static Scanner sc;
+
     public static void main(String[] args) {
 
         // Crear agenda //
@@ -15,23 +20,28 @@ public class Main {
 
         // Buscar Contacto //
         // Buscar Contacto //
+        
+                HashMap<String, Contacto> agenda = new HashMap<>();
+                
+                System.out.print("Nombre a buscar: ");
+                String nombreBusqueda = sc.nextLine();
 
-        System.out.print("Ingrese el nombre del contacto a buscar: ");
-        String nombre = sc.nextLine();
+             
+                Contacto encontrado = buscarContacto(agenda, nombreBusqueda);
 
-
-        Contacto resultado = buscarContacto(agenda, nombre);
-
-        if (resultado != null) {
-
-            System.out.println("--- Usuario Encontrado ---");
-            System.out.println("Nombre: " + resultado.getNombre());
-            System.out.println("Teléfono: " + resultado.getNumero());
-        } else {
-            System.out.println("El usuario '" + nombre + "' no existe en la agenda.");
+                if (encontrado != null) {
+                    System.out.println("Encontrado -> Nombre: " + encontrado.getNombre() +
+                            " | Tel: " + encontrado.getNumero());
+                } else {
+                    System.out.println("No existe en la agenda.");
+                }
+            }
+            
+            public static Contacto buscarContacto(HashMap<String, Contacto> agenda, String nombre) {
+                // .get() ahora funcionará porque importamos HashMap y definimos los tipos
+                return agenda.get(nombre);
+            }
         }
-        break;
-
 
         // Eliminar Contacto //
         // Eliminar Contacto //

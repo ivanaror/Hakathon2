@@ -1,14 +1,6 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 
-public static Contacto buscarContacto(ArrayList<Contacto> agenda, String nombreBusqueda) {
-    for (Contacto contacto : agenda) {
-
-        if (contacto.getNombre().equalsIgnoreCase(nombreBusqueda)) {
-            return contacto;
-        }
-    }
-    return null;
-}
-
-void main() {
+public static Contacto buscarContacto(HashMap<String, Contacto> agenda, String nombre) {
+    // busca la llave en el mapa y devuelve el objeto asociado
+    return agenda.get(nombre);
 }
