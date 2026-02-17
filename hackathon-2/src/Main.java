@@ -9,14 +9,26 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Agenda agenda = new Agenda();
         Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Define el tamaño de la agenda: ");
+        int limiteAgenda = 10;
+        if (scanner.hasNextInt()) {
+            limiteAgenda = scanner.nextInt();
+            scanner.nextLine();
+        } else {
+            System.out.println("Entrada no válida, usando tamaño por defecto: 10.");
+            scanner.nextLine();
+        }
+
+        Agenda agenda = new Agenda(limiteAgenda);
         boolean salir = false;
 
         while (!salir) {
             imprimirMenu();
-            try {
-                int opcion = leerEntero(scanner);
+            if (scanner.hasNextInt()) {
+                int opcion = scanner.nextInt();
+                scanner.nextLine();
 
                 switch (opcion) {
                     case 1 -> agregarNuevoContacto(scanner, agenda);
@@ -34,8 +46,8 @@ public class Main {
                     case 7 -> salir = true;
                     default -> System.out.println("Opción no válida. Intenta de nuevo.");
                 }
-            } catch (InvalidData e) {
-                System.err.println("Error de entrada: " + e.getMessage());
+            } else {
+                System.err.println("Error de entrada: '" + scanner.nextLine() + "' no es un número válido.");
             }
         }
         System.out.println("¡Adiós!");
@@ -55,9 +67,18 @@ public class Main {
 
     private static int leerEntero(Scanner scanner) throws InvalidData {
         String entrada = scanner.nextLine();
-        try {
+        if (entrada.matches("\\d+")) {
             return Integer.parseInt(entrada);
-        } catch (NumberFormatException e) {
+        } else {
+            throw new InvalidData("'" + entrada + "' no es un número válido.");
+        }
+    }
+
+    private static long leerLargo(Scanner scanner) throws InvalidData {
+        String entrada = scanner.nextLine();
+        if (entrada.matches("\\d+")) {
+            return Long.parseLong(entrada);
+        } else {
             throw new InvalidData("'" + entrada + "' no es un número válido.");
         }
     }
@@ -68,7 +89,7 @@ public class Main {
             String nombre = scanner.nextLine();
 
             System.out.print("Ingresa el número de teléfono: ");
-            int numero = leerEntero(scanner);
+            long numero = leerLargo(scanner);
 
             agenda.agregarContacto(new Contacto(nombre, numero));
             System.out.println("Contacto agregado exitosamente.");
@@ -77,7 +98,7 @@ public class Main {
         }
     }
 
-    
+
     private static void buscarContacto(Scanner scanner, Agenda agenda) throws ExistenciaUsuario {
         System.out.print("Ingresa el nombre a buscar: ");
         String nombreBusqueda = scanner.nextLine();
@@ -90,18 +111,16 @@ public class Main {
     }
 
     private static void verificarExistencia(Scanner scanner, Agenda agenda) {
-        // Funcionalidad para indicar si el contacto existe o no
         System.out.print("Ingresa el nombre a verificar: ");
         String nombreVerificar = scanner.nextLine();
         if (agenda.buscarContacto(nombreVerificar) != null) {
-            System.out.println("El contacto '" + nombreVerificar + "' SÍ existe en la agenda.");
+            System.out.println("El contacto '" + nombreVerificar + "' existe en la agenda.");
         } else {
-            System.out.println("El contacto '" + nombreVerificar + "' NO existe en la agenda.");
+            System.out.println("El contacto '" + nombreVerificar + "' no existe en la agenda.");
         }
     }
 
     private static void eliminarContacto(Scanner scanner, Agenda agenda) {
-        // Funcionalidad para indicar si el usuario ha sido eliminado o no
         System.out.print("Ingresa el nombre a eliminar: ");
         String nombreEliminar = scanner.nextLine();
         if (agenda.eliminarContacto(nombreEliminar)) {

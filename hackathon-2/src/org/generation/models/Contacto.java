@@ -1,11 +1,10 @@
 package org.generation.models;
 
-// Contacto definid por nombre y numero
 public class Contacto {
     private String nombre;
-    private int numero;
+    private long numero;
 
-    public Contacto(String nombre, int numero) {
+    public Contacto(String nombre, long numero) {
         this.nombre = nombre;
         this.numero = numero;
     }
@@ -18,11 +17,11 @@ public class Contacto {
         this.nombre = nombre;
     }
 
-    public int getNumero() {
+    public long getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(long numero) {
         this.numero = numero;
     }
 

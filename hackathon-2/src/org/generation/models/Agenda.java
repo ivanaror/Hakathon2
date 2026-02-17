@@ -6,27 +6,29 @@ import org.generation.exceptions.ExistenciaUsuario;
 import java.util.HashMap;
 import java.util.Map;
 
-// Agenda formada por un conjunto de contactos
 public class Agenda {
     private final Map<String, Contacto> contactos;
-    private static final int LIMITE = 10;
+    private final int limite;
 
     public Agenda() {
-        this.contactos = new HashMap<>();
+        this(10);
     }
 
-    // Funcionalidad para añadir un contacto -- incluye funcionalidades para revisar agenda llena y existencia de usuario.
+    public Agenda(int limite) {
+        this.contactos = new HashMap<>();
+        this.limite = limite;
+    }
+
     public void agregarContacto(Contacto contacto) throws AgendaLlena, ExistenciaUsuario {
-        if (contactos.size() >= LIMITE) {
-            throw new AgendaLlena("La agenda está llena.");
+        if (contactos.size() >= limite) {
+            throw new AgendaLlena("La agenda está llena."); // Funcionalidad agenda llena
         }
         if (contactos.containsKey(contacto.getNombre().toLowerCase())) {
-            throw new ExistenciaUsuario("El contacto ya existe.");
+            throw new ExistenciaUsuario("El contacto ya existe.");  // Funcionalidad existencia de usuario
         }
         contactos.put(contacto.getNombre().toLowerCase(), contacto);
     }
 
-    // Funcionalidad para eliminar a un contacto
     public boolean eliminarContacto(String nombre) {
         if (nombre == null || nombre.isEmpty()) {
             return false;
@@ -34,7 +36,6 @@ public class Agenda {
         return contactos.remove(nombre.toLowerCase()) != null;
     }
 
-    // Funcionalidad para buscar un contacto con su nombre (FALTA MOSTRAR TELEFONO)
     public Contacto buscarContacto(String nombre) {
         if (nombre == null || nombre.isEmpty()) {
             return null;
@@ -42,7 +43,6 @@ public class Agenda {
         return contactos.get(nombre.toLowerCase());
     }
 
-    // Funcionalidad para listar toda la agenda
     public void listarContactos() {
         if (contactos.isEmpty()) {
             System.out.println("La agenda está vacía.");
@@ -53,6 +53,6 @@ public class Agenda {
     }
 
     public int obtenerEspaciosDisponibles() {
-        return LIMITE - contactos.size();
+        return limite - contactos.size();
     }
 }
