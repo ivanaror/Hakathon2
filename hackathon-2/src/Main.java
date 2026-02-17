@@ -33,14 +33,8 @@ public class Main {
                 switch (opcion) {
                     case 1 -> agregarNuevoContacto(scanner, agenda);
                     case 2 -> agenda.listarContactos();
-                    case 3 -> {
-                        try {
-                            buscarContacto(scanner, agenda);
-                        } catch (ExistenciaUsuario e) {
-                            System.err.println("Error en la búsqueda: " + e.getMessage());
-                        }
-                    }
-                    case 4 -> eliminarContacto(scanner, agenda);
+                    case 3 -> {try{buscarContacto(scanner, agenda);}catch(ExistenciaUsuario e){System.err.println("Error en la búsqueda: " + e.getMessage());}}
+                    case 4 -> {try{eliminarContacto(scanner, agenda);}catch(ExistenciaUsuario e){System.err.println("Error al eliminar: " + e.getMessage());}}
                     case 5 -> System.out.println("Espacios disponibles: " + agenda.obtenerEspaciosDisponibles());
                     case 6 -> verificarExistencia(scanner, agenda);
                     case 7 -> salir = true;
@@ -65,15 +59,6 @@ public class Main {
         System.out.print("Elige una opción: ");
     }
 
-    private static int leerEntero(Scanner scanner) throws InvalidData {
-        String entrada = scanner.nextLine();
-        if (entrada.matches("\\d+")) {
-            return Integer.parseInt(entrada);
-        } else {
-            throw new InvalidData("'" + entrada + "' no es un número válido.");
-        }
-    }
-
     private static long leerLargo(Scanner scanner) throws InvalidData {
         String entrada = scanner.nextLine();
         if (entrada.matches("\\d+")) {
@@ -85,10 +70,10 @@ public class Main {
 
     private static void agregarNuevoContacto(Scanner scanner, Agenda agenda) {
         try {
-            System.out.print("Ingresa el nombre: ");
+            System.out.print("Nombre del contacto nuevo: ");
             String nombre = scanner.nextLine();
 
-            System.out.print("Ingresa el número de teléfono: ");
+            System.out.print("Numero telefonico del contacto nuevo: ");
             long numero = leerLargo(scanner);
 
             agenda.agregarContacto(new Contacto(nombre, numero));
@@ -104,7 +89,7 @@ public class Main {
         String nombreBusqueda = scanner.nextLine();
         Contacto encontrado = agenda.buscarContacto(nombreBusqueda);
         if (encontrado != null) {
-            System.out.println("Encontrado: " + encontrado);
+            System.out.println("Se encontro contacto: " + encontrado);
         } else {
             throw new ExistenciaUsuario("Contacto no encontrado.");
         }
@@ -120,13 +105,13 @@ public class Main {
         }
     }
 
-    private static void eliminarContacto(Scanner scanner, Agenda agenda) {
+    private static void eliminarContacto(Scanner scanner, Agenda agenda) throws ExistenciaUsuario {
         System.out.print("Ingresa el nombre a eliminar: ");
         String nombreEliminar = scanner.nextLine();
         if (agenda.eliminarContacto(nombreEliminar)) {
             System.out.println("Contacto eliminado exitosamente.");
         } else {
-            System.out.println("No se pudo eliminar. Contacto no encontrado.");
+            throw new ExistenciaUsuario("Contacto no encontrado.");
         }
     }
 }
