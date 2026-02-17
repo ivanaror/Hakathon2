@@ -37,11 +37,11 @@ public class Agenda {
     }
 
     public Contacto buscarContacto(String nombre) {
-        if (nombre == null || nombre.isEmpty()) {
-            return null;
-        }
-        return contactos.get(nombre.toLowerCase());
+      if (nombre == null || nombre.trim().isEmpty()) {
+        return null;
     }
+    return contactos.get(nombre.trim().toLowerCase());
+}
 
     public void listarContactos() {
         if (contactos.isEmpty()) {
