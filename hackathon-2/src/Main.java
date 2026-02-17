@@ -26,7 +26,6 @@ public class Main {
 
         while (!salir) {
             imprimirMenu();
-            if (scanner.hasNextInt()) {
                 int opcion = scanner.nextInt();
                 scanner.nextLine();
 
@@ -40,9 +39,6 @@ public class Main {
                     case 7 -> salir = true;
                     default -> System.out.println("Opción no válida. Intenta de nuevo.");
                 }
-            } else {
-                System.err.println("Error de entrada: '" + scanner.nextLine() + "' no es un número válido.");
-            }
         }
         System.out.println("¡Adiós!");
     }

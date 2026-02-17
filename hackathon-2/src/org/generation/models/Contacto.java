@@ -27,6 +27,6 @@ public class Contacto {
 
     @Override
     public String toString() {
-        return "Nombre: " + nombre + ", Teléfono: " + numero;
+        return "Nombre: " + nombre + ", Teléfono: " + numero;   // Desplegar numero ante busqueda de usuario o usuario existente
     }
 }
