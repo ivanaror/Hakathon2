@@ -104,7 +104,9 @@ public class Main {
         String nombreBusqueda = scanner.nextLine();
         Contacto encontrado = agenda.buscarContacto(nombreBusqueda);
         if (encontrado != null) {
-            System.out.println("Encontrado: " + encontrado);
+            System.out.println("\n Información del Contacto ");
+            System.out.println("Nombre: " + encontrado.getNombre());
+            System.out.println("Teléfono: " + encontrado.getNumero());
         } else {
             throw new ExistenciaUsuario("Contacto no encontrado.");
         }
